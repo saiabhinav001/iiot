@@ -27,11 +27,15 @@ end
 min_val = min(A, B);
 max_val = max(A, B);
 
+% Mean Calculation
+mean_val = mean([A B]);
+
 fprintf('A = %.2f\n', A);
 fprintf('B = %.2f\n', B);
 fprintf('Add = %.2f\n', add);
 fprintf('Sub = %.2f\n', sub);
 fprintf('Mul = %.2f\n', mul);
 fprintf('Div = %.2f\n', div);
+fprintf('Mean = %.2f\n', mean_val);
 fprintf('Min = %.2f\n', min_val);
 fprintf('Max = %.2f\n', max_val);
