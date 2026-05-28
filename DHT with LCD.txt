@@ -1,0 +1,41 @@
+from RPLCD.gpio import CharLCD
+import Adafruit_DHT
+import RPi.GPIO as GPIO
+import time
+
+GPIO.setwarnings(False)
+
+lcd = CharLCD(
+    cols=20,
+    rows=4,
+    pin_rs=35,
+    pin_e=33,
+    pins_data=[40, 38, 36, 32],
+    numbering_mode=GPIO.BOARD
+)
+
+sensor = Adafruit_DHT.DHT11
+p = 17
+
+print("Temp & Humidity in progress....")
+
+try:
+    while True:
+        h, temp = Adafruit_DHT.read_retry(sensor, p)
+
+        print("Humidity =", str(h))
+        print("Temperature =", str(temp))
+
+        time.sleep(0.5)
+
+        lcd.cursor_pos = (0, 0)
+        lcd.write_string(f"Temperature:{temp}")
+
+        lcd.cursor_pos = (1, 0)
+        lcd.write_string(f"Humidity:{h}")
+
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    print("Program terminated")
+    GPIO.cleanup()

@@ -1,0 +1,30 @@
+import RPi.GPIO as g
+import time
+
+g.setmode(g.BOARD)
+g.setwarnings(False)
+g.setup(11, g.OUT)
+
+servo = g.PWM(11, 50)
+servo.start(5)
+
+print("Wait")
+time.sleep(1)
+
+duty = 2
+
+while duty <= 17:
+    servo.ChangeDutyCycle(duty)
+    time.sleep(0.5)
+    duty = duty + 2
+
+print("Turning back to 0 degrees")
+
+servo.ChangeDutyCycle(2)
+time.sleep(1)
+
+servo.ChangeDutyCycle(0)
+servo.stop()
+g.cleanup()
+
+print("Cleared")

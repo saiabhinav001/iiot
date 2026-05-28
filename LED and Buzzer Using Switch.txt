@@ -1,0 +1,39 @@
+import time
+import RPi.GPIO as gpio
+
+gpio.setwarnings(False)
+gpio.setmode(gpio.BOARD)
+
+led = 40
+switch = 31
+buzzer = 19
+
+gpio.setup(led, gpio.OUT, initial=0)
+gpio.setup(buzzer, gpio.OUT)
+gpio.setup(switch, gpio.IN)
+
+def glow_led_and_sound_buzzer(event):
+    if event == switch:
+        gpio.output(led, True)
+        gpio.output(buzzer, True)
+
+        print("LED & Buzzer ON")
+
+        time.sleep(1.5)
+
+        gpio.output(led, False)
+        gpio.output(buzzer, False)
+
+gpio.add_event_detect(
+    switch,
+    gpio.RISING,
+    callback=glow_led_and_sound_buzzer,
+    bouncetime=100
+)
+
+try:
+    while True:
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    gpio.cleanup()

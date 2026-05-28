@@ -1,0 +1,33 @@
+import time
+import RPi.GPIO as gpio
+
+gpio.setwarnings(False)
+gpio.setmode(gpio.BOARD)
+
+buzzer = 38
+switch = 31
+
+gpio.setup(buzzer, gpio.OUT)
+gpio.setup(switch, gpio.IN)
+
+def sound_buzzer(event):
+    if event == switch:
+        gpio.output(buzzer, True)
+        print("Buzzer ON")
+        time.sleep(1)
+        gpio.output(buzzer, False)
+        time.sleep(0.5)
+
+gpio.add_event_detect(
+    switch,
+    gpio.RISING,
+    callback=sound_buzzer,
+    bouncetime=100
+)
+
+try:
+    while True:
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    gpio.cleanup()
